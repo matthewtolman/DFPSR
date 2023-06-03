@@ -915,6 +915,18 @@ String& dsr::string_toStreamIndented(String& target, const uint64_t& value, cons
 	uintToString_arabic(target, value);
 	return target;
 }
+#ifdef DARWIN
+String& dsr::string_toStreamIndented(String& target, const long& value, const ReadableString& indentation) {
+    atomic_append(target, indentation);
+    intToString_arabic(target, (int64_t)value);
+    return target;
+}
+String& dsr::string_toStreamIndented(String& target, const unsigned long& value, const ReadableString& indentation) {
+    atomic_append(target, indentation);
+    uintToString_arabic(target, (uint64_t)value);
+    return target;
+}
+#endif
 String& dsr::string_toStreamIndented(String& target, const int32_t& value, const ReadableString& indentation) {
 	atomic_append(target, indentation);
 	intToString_arabic(target, (int64_t)value);

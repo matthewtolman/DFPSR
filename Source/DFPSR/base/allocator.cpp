@@ -107,6 +107,9 @@ static int getBufferIndex(size_t contentSize) {
 	}
 }
 
+#ifndef DARWIN
+// Not working on Mac for some reason. Locking in operator delete causes infinite recursion into operator new
+
 void* operator new(size_t contentSize) {
 	allocationLock.lock();
 		int bufferIndex = getBufferIndex(contentSize);
@@ -135,5 +138,6 @@ void operator delete(void* content) {
 		}
     allocationLock.unlock();
 }
+#endif
 
 #endif

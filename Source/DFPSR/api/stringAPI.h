@@ -123,6 +123,8 @@ public:
 	String(const std::string& source);
 	String(const ReadableString& source);
 	String(const String& source);
+
+    virtual ~String() = default;
 };
 
 // Define this overload for non-virtual source types that cannot inherit from Printable
@@ -135,6 +137,11 @@ String& string_toStreamIndented(String& target, const float& value, const Readab
 String& string_toStreamIndented(String& target, const double& value, const ReadableString& indentation);
 String& string_toStreamIndented(String& target, const int64_t& value, const ReadableString& indentation);
 String& string_toStreamIndented(String& target, const uint64_t& value, const ReadableString& indentation);
+#if DARWIN
+// Apple Clang uses long long int for int64_t and int for int32_t, so "long" doesn't have a declaration, and the casts are ambiguous
+String& string_toStreamIndented(String& target, const unsigned long& value, const ReadableString& indentation);
+String& string_toStreamIndented(String& target, const long& value, const ReadableString& indentation);
+#endif
 String& string_toStreamIndented(String& target, const int32_t& value, const ReadableString& indentation);
 String& string_toStreamIndented(String& target, const uint32_t& value, const ReadableString& indentation);
 String& string_toStreamIndented(String& target, const int16_t& value, const ReadableString& indentation);
